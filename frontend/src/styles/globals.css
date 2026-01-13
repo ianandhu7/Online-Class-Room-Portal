@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Custom colors matching your design */
+  --color-primary: #2D6CFF;
+  --color-primary-dark: #1a5bbd;
+  /* Added matching dark shade */
+  --color-secondary: #10b981;
+  --color-background-light: #F4F7FE;
+  --color-background-dark: #0B1120;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-error: #ef4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+
+  /* Custom font family */
+  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  /* Added body font */
+
+  /* Custom border radius values */
+  --radius: 0.25rem;
+}
