@@ -1,14 +1,18 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-)
-from users.views import RegisterView, UserProfileView, CustomTokenObtainPairView
-
+from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
 
+def home(request):
+    return JsonResponse({
+        "message": "Online Classroom Portal API is running successfully",
+        "documentation": "/admin/",
+        "version": "1.0.0"
+    })
+
 urlpatterns = [
+    path('', home),
     path('admin/', admin.site.urls),
     path('api/auth/', include('users.urls')),
     
