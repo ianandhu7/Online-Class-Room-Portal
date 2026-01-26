@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Classroom Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .nav { margin-bottom: 30px; }
+        .nav a { margin: 0 15px; text-decoration: none; color: #007cba; }
+        .welcome { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Classroom Portal</h1>
+        
+        <div class="nav">
+            {% if user.is_authenticated %}
+                <p class="welcome">Welcome, {{ user.username }}!</p>
+                <a href="/admin/">Admin Panel</a>
+                <a href="/logout/">Logout</a>
+            {% else %}
+                <a href="{% url 'register' %}">Register</a>
+                <a href="/admin/">Login</a>
+            {% endif %}
+        </div>
+        
+        <div class="content">
+            {% if user.is_authenticated %}
+                {% if user.isTeacher %}
+                    <h2>Teacher Dashboard</h2>
+                    <p>Manage your courses and assignments.</p>
+                {% elif user.isStudent %}
+                    <h2>Student Dashboard</h2>
+                    <p>View your courses and submit assignments.</p>
+                {% endif %}
+            {% else %}
+                <h2>Welcome to the Online Classroom Portal</h2>
+                <p>Please register or login to access the system.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
