@@ -1,0 +1,42 @@
+services:
+  # 1. Backend Service (Django)
+  - type: web
+    name: online-classroom-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.wsgi:application
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: online-classroom-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: "*"
+
+  # 2. Frontend Service (React/Vite)
+  - type: static
+    name: online-classroom-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: online-classroom-backend
+          property: url
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+# 3. Database (PostgreSQL)
+databases:
+  - name: online-classroom-db
+    plan: free
