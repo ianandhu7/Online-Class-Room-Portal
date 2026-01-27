@@ -3,7 +3,7 @@ import client from './client';
 export const loginUser = async (email, password) => {
   // SimpleJWT defaults to looking for 'username'. 
   // We send both for maximum compatibility with my custom serializer.
-  const response = await client.post('/auth/login', {
+  const response = await client.post('/auth/login/', {
     email,
     username: email,
     password
@@ -12,12 +12,12 @@ export const loginUser = async (email, password) => {
 };
 
 export const registerUser = async (userData) => {
-  const response = await client.post('/auth/register', userData);
+  const response = await client.post('/auth/register/', userData);
   return response.data;
 };
 
 export const getCurrentUser = async () => {
-  const response = await client.get('/auth/me');
+  const response = await client.get('/auth/me/');
   return response.data;
 };
 
@@ -36,7 +36,7 @@ export const logout = logoutUser;
 export const me = getCurrentUser;
 
 export const deleteAccount = async () => {
-  const response = await client.delete('/auth/me');
+  const response = await client.delete('/auth/me/');
   return response.data;
 };
 
