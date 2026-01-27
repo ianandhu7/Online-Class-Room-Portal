@@ -89,8 +89,13 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-CORS_ALLOW_ALL_ORIGINS = os.environ.get('DEBUG', 'True') == 'True'
+# Temporarily allow all origins for debugging CORS issues
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Additional CORS settings for debugging
+CORS_PREFLIGHT_MAX_AGE = 86400
+CORS_EXPOSE_HEADERS = ['Content-Type', 'Authorization']
 
 # Additional CORS headers
 CORS_ALLOW_HEADERS = [
@@ -114,18 +119,18 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-# Production CORS settings
-if not DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        "https://online-classroom-frontend.onrender.com",
-        "https://online-class-room-portal-1.onrender.com",
-        "https://online-classroom-backend.onrender.com",
-    ]
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https://.*\.onrender\.com$",
-    ]
-else:
-    CORS_ALLOW_ALL_ORIGINS = True
+# Production CORS settings (temporarily disabled for debugging)
+# if not DEBUG:
+#     CORS_ALLOWED_ORIGINS = [
+#         "https://online-classroom-frontend.onrender.com",
+#         "https://online-class-room-portal-1.onrender.com",
+#         "https://online-classroom-backend.onrender.com",
+#     ]
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^https://.*\.onrender\.com$",
+#     ]
+# else:
+#     CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'backend.urls'
