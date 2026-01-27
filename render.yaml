@@ -4,7 +4,7 @@ services:
     name: online-classroom-backend
     runtime: python
     rootDir: backend
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
     startCommand: gunicorn backend.wsgi:application
     envVars:
       - key: DEBUG
@@ -27,10 +27,7 @@ services:
     publishPath: dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: online-classroom-backend
-          property: url
+        value: https://online-classroom-backend.onrender.com/api
     routes:
       - type: rewrite
         source: /*

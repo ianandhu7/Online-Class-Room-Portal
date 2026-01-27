@@ -8,7 +8,8 @@ def home(request):
     return JsonResponse({
         "message": "Online Classroom Portal API is running successfully",
         "documentation": "/admin/",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "status": "healthy"
     })
 
 urlpatterns = [
