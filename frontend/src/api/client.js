@@ -2,9 +2,7 @@ import axios from 'axios';
 
 const getBaseUrl = () => {
     let url = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
-    if (!url.endsWith('/api') && !url.endsWith('/api/')) {
-        url += '/api';
-    }
+    // Don't add /api if it's already there
     return url;
 };
 
