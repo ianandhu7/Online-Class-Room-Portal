@@ -4,7 +4,7 @@ services:
     name: online-class-room-portal-backend
     runtime: python
     rootDir: backend
-    buildCommand: pip install -r requirements.txt && python manage.py makemigrations users && python manage.py makemigrations && python manage.py migrate --run-syncdb && python manage.py collectstatic --noinput
+    buildCommand: pip install -r requirements.txt && python init_db.py && python manage.py collectstatic --noinput
     startCommand: gunicorn backend.wsgi:application
     envVars:
       - key: DEBUG
