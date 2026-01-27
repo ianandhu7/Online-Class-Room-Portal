@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure--y!bbi(y!@%0$n*x$b+17
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*', 'online-classroom-backend.onrender.com', 'online-classroom-frontend.onrender.com']
+ALLOWED_HOSTS = ['*', 'online-classroom-backend.onrender.com', 'online-class-room-portal-1.onrender.com']
 
 
 import os
@@ -92,15 +92,41 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = os.environ.get('DEBUG', 'True') == 'True'
 CORS_ALLOW_CREDENTIALS = True
 
+# Additional CORS headers
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 # Production CORS settings
 if not DEBUG:
     CORS_ALLOWED_ORIGINS = [
         "https://online-classroom-frontend.onrender.com",
+        "https://online-class-room-portal-1.onrender.com",
         "https://online-classroom-backend.onrender.com",
     ]
     CORS_ALLOWED_ORIGIN_REGEXES = [
         r"^https://.*\.onrender\.com$",
     ]
+else:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'backend.urls'
 
