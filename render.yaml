@@ -1,7 +1,7 @@
 services:
   # 1. Backend Service (Django)
   - type: web
-    name: online-classroom-backend
+    name: online-class-room-portal-backend
     runtime: python
     rootDir: backend
     buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
@@ -20,14 +20,14 @@ services:
 
   # 2. Frontend Service (React/Vite)
   - type: static
-    name: online-classroom-frontend
+    name: online-class-room-portal-frontend
     runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     publishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://online-classroom-backend.onrender.com/api
+        value: https://online-class-room-portal-backend.onrender.com/api
     routes:
       - type: rewrite
         source: /*

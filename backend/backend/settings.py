@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure--y!bbi(y!@%0$n*x$b+17
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*', 'online-classroom-backend.onrender.com', 'online-class-room-portal-1.onrender.com']
+ALLOWED_HOSTS = ['*', 'online-class-room-portal-backend.onrender.com', 'online-class-room-portal-1.onrender.com']
 
 
 import os
