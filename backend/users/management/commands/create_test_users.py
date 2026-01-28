@@ -14,8 +14,6 @@ class Command(BaseCommand):
                 'name': 'Student User',
                 'password': 'student123',
                 'role': 'student',
-                'isStudent': True,
-                'isTeacher': False,
             },
             {
                 'username': 'teacher@example.com',
@@ -23,8 +21,6 @@ class Command(BaseCommand):
                 'name': 'Teacher User',
                 'password': 'teacher123',
                 'role': 'teacher',
-                'isStudent': False,
-                'isTeacher': True,
             },
             {
                 'username': 'admin@example.com',
@@ -32,8 +28,6 @@ class Command(BaseCommand):
                 'name': 'Admin User',
                 'password': 'admin123',
                 'role': 'admin',
-                'isStudent': False,
-                'isTeacher': False,
                 'is_staff': True,
                 'is_superuser': True,
             }
