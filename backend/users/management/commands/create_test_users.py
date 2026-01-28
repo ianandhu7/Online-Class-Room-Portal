@@ -9,27 +9,27 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         test_users = [
             {
-                'username': 'student@test.com',
-                'email': 'student@test.com',
-                'name': 'Test Student',
+                'username': 'student@example.com',
+                'email': 'student@example.com',
+                'name': 'Student User',
                 'password': 'student123',
                 'role': 'student',
                 'isStudent': True,
                 'isTeacher': False,
             },
             {
-                'username': 'teacher@test.com',
-                'email': 'teacher@test.com',
-                'name': 'Test Teacher',
+                'username': 'teacher@example.com',
+                'email': 'teacher@example.com',
+                'name': 'Teacher User',
                 'password': 'teacher123',
                 'role': 'teacher',
                 'isStudent': False,
                 'isTeacher': True,
             },
             {
-                'username': 'admin@test.com',
-                'email': 'admin@test.com',
-                'name': 'Test Admin',
+                'username': 'admin@example.com',
+                'email': 'admin@example.com',
+                'name': 'Admin User',
                 'password': 'admin123',
                 'role': 'admin',
                 'isStudent': False,
@@ -60,17 +60,17 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(
-            self.style.SUCCESS('\n=== TEST CREDENTIALS ===')
+            self.style.SUCCESS('\n=== LOGIN CREDENTIALS ===')
         )
         self.stdout.write('Student Login:')
-        self.stdout.write('  Email: student@test.com')
+        self.stdout.write('  Email: student@example.com')
         self.stdout.write('  Password: student123')
         self.stdout.write('')
         self.stdout.write('Teacher Login:')
-        self.stdout.write('  Email: teacher@test.com')
+        self.stdout.write('  Email: teacher@example.com')
         self.stdout.write('  Password: teacher123')
         self.stdout.write('')
         self.stdout.write('Admin Login:')
-        self.stdout.write('  Email: admin@test.com')
+        self.stdout.write('  Email: admin@example.com')
         self.stdout.write('  Password: admin123')
         self.stdout.write('========================')
