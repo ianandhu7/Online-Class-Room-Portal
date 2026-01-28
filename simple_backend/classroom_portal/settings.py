@@ -114,6 +114,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://online-class-room-portal-1-tnym.onrender.com",
     "http://localhost:3000",  # For local development
     "http://127.0.0.1:3000",  # For local development
+    "http://localhost:5173",  # Vite dev server
+    "http://127.0.0.1:5173",  # Vite dev server
 ]
 
 # Allow credentials (cookies, authorization headers)
@@ -155,6 +157,8 @@ CORS_EXPOSE_HEADERS = [
 CSRF_TRUSTED_ORIGINS = [
     "https://online-class-room-portal-1-tnym.onrender.com",
     "https://classroom-portal-backend.onrender.com",
+    "http://localhost:3000",
+    "http://localhost:5173",
 ]
 
 # REST Framework configuration
