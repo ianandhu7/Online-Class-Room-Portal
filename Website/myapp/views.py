@@ -5,65 +5,83 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User as DjangoUser
 import json
 
-User = get_user_model()
-
-def register_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        password_confirm = request.POST.get('password_confirm')
-        user_type = request.POST.get('user_type')  # 'teacher' or 'student'
-        
-        if password != password_confirm:
-            messages.error(request, 'Passwords do not match')
-            return render(request, 'registration/register.html')
-        
-        if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username already exists')
-            return render(request, 'registration/register.html')
-        
-        try:
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-                isTeacher=(user_type == 'teacher'),
-                isStudent=(user_type == 'student')
-            )
-            login(request, user)
-            messages.success(request, 'Registration successful!')
-            return redirect('home')
-        except Exception as e:
-            messages.error(request, f'Registration failed: {str(e)}')
-    
-    return render(request, 'registration/register.html')
+# Use Django's built-in User model temporarily
+def create_simple_user(username, password, email):
+    """Create user with Django's built-in User model"""
+    try:
+        user = DjangoUser.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        return user
+    except:
+        return None
 
 @csrf_exempt
 def api_register(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            username = data.get('username')
+            name = data.get('name', '')
+            email = data.get('email')
             password = data.get('password')
-            user_type = data.get('user_type')
+            role = data.get('role', 'student')
             
-            if User.objects.filter(username=username).exists():
-                return JsonResponse({'error': 'Username already exists'}, status=400)
+            # Check if user exists
+            if DjangoUser.objects.filter(email=email).exists():
+                return JsonResponse({'error': 'Email already exists'}, status=400)
             
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-                isTeacher=(user_type == 'teacher'),
-                isStudent=(user_type == 'student')
-            )
+            # Create user with built-in User model
+            user = create_simple_user(email, password, email)
+            if user:
+                return JsonResponse({
+                    'success': True,
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'name': name,
+                        'role': role
+                    },
+                    'token': 'dummy-token-for-now'
+                }, status=201)
+            else:
+                return JsonResponse({'error': 'Failed to create user'}, status=500)
+                
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@csrf_exempt
+def api_login(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            email = data.get('email')
+            password = data.get('password')
             
-            return JsonResponse({
-                'success': True,
-                'user_id': user.id,
-                'username': user.username,
-                'user_type': user_type
-            })
+            # Try to authenticate
+            user = authenticate(username=email, password=password)
+            if user:
+                return JsonResponse({
+                    'success': True,
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'name': user.first_name or user.username,
+                        'role': 'student'
+                    },
+                    'token': 'dummy-token-for-now'
+                })
+            else:
+                return JsonResponse({'error': 'Invalid credentials'}, status=400)
+                
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     
