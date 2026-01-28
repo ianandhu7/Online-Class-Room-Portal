@@ -40,10 +40,20 @@ def init_database():
         from users.models import User
         count = User.objects.count()
         print(f"✅ users_user table exists with {count} users")
-        return True
     except Exception as e:
         print(f"❌ users_user table check failed: {e}")
         return False
+    
+    # Create test users
+    try:
+        print("Creating test users...")
+        execute_from_command_line(['manage.py', 'create_test_users'])
+        print("✅ Test users created")
+    except Exception as e:
+        print(f"❌ Test user creation failed: {e}")
+        # Don't return False here, as this is not critical for basic functionality
+    
+    return True
 
 if __name__ == '__main__':
     success = init_database()
