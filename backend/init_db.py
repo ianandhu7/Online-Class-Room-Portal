@@ -2,6 +2,7 @@
 import os
 import sys
 import django
+import time
 
 # Add the backend directory to the Python path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -14,22 +15,41 @@ from django.core.management import execute_from_command_line
 from django.db import connection
 from django.core.management.color import no_style
 
-def init_database():
-    print("=== INITIALIZING DATABASE ===")
+def wait_for_db():
+    """Wait for database to be available"""
+    print("=== WAITING FOR DATABASE ===")
+    max_retries = 30
+    retry_count = 0
     
-    # Check database connection
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT 1")
-        print("✅ Database connection successful")
-    except Exception as e:
-        print(f"❌ Database connection failed: {e}")
+    while retry_count < max_retries:
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+            print("✅ Database connection successful")
+            return True
+        except Exception as e:
+            retry_count += 1
+            print(f"Database not ready ({retry_count}/{max_retries}): {e}")
+            time.sleep(2)
+    
+    print("❌ Database connection failed after all retries")
+    return False
+
+def init_database():
+    print("=== INITIALIZING POSTGRESQL DATABASE ===")
+    
+    # Wait for database to be ready
+    if not wait_for_db():
         return False
     
     # Run migrations
     try:
+        print("Creating migrations...")
+        execute_from_command_line(['manage.py', 'makemigrations', '--verbosity=2'])
+        print("✅ Migrations created")
+        
         print("Running migrations...")
-        execute_from_command_line(['manage.py', 'migrate', '--run-syncdb', '--verbosity=2'])
+        execute_from_command_line(['manage.py', 'migrate', '--verbosity=2'])
         print("✅ Migrations completed")
     except Exception as e:
         print(f"❌ Migration failed: {e}")
