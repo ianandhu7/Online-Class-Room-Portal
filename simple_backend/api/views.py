@@ -2,23 +2,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
-from django.views import View
 import json
 
 @csrf_exempt
 def register(request):
-    """Handle user registration with proper CORS support"""
-    if request.method == 'OPTIONS':
-        # Handle preflight request
-        response = JsonResponse({})
-        response['Access-Control-Allow-Origin'] = 'https://online-class-room-portal-1-tnym.onrender.com'
-        response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
-        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        response['Access-Control-Allow-Credentials'] = 'true'
-        return response
-    
+    """Handle user registration"""
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -58,16 +46,7 @@ def register(request):
 
 @csrf_exempt
 def login(request):
-    """Handle user login with proper CORS support"""
-    if request.method == 'OPTIONS':
-        # Handle preflight request
-        response = JsonResponse({})
-        response['Access-Control-Allow-Origin'] = 'https://online-class-room-portal-1-tnym.onrender.com'
-        response['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
-        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        response['Access-Control-Allow-Credentials'] = 'true'
-        return response
-    
+    """Handle user login"""
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -98,16 +77,7 @@ def login(request):
 
 @csrf_exempt
 def me(request):
-    """Handle user profile with proper CORS support"""
-    if request.method == 'OPTIONS':
-        # Handle preflight request
-        response = JsonResponse({})
-        response['Access-Control-Allow-Origin'] = 'https://online-class-room-portal-1-tnym.onrender.com'
-        response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        response['Access-Control-Allow-Credentials'] = 'true'
-        return response
-    
+    """Handle user profile"""
     if request.method == 'GET':
         return JsonResponse({
             'id': 1,

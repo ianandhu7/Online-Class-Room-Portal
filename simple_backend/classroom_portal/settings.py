@@ -30,9 +30,10 @@ INSTALLED_APPS = [
     'api',
 ]
 
-# MIDDLEWARE - CORS MUST BE AT THE TOP
+# MIDDLEWARE - CUSTOM CORS FIRST
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # MUST BE FIRST
+    'api.middleware.CorsMiddleware',  # CUSTOM CORS MIDDLEWARE FIRST
+    'corsheaders.middleware.CorsMiddleware',  # BACKUP
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -102,8 +103,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ============================================================================
-# CORS CONFIGURATION - PRODUCTION READY
+# AGGRESSIVE CORS CONFIGURATION - GUARANTEED TO WORK
 # ============================================================================
+
+# Allow all origins temporarily for debugging
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Allow specific origins (your frontend domains)
 CORS_ALLOWED_ORIGINS = [
